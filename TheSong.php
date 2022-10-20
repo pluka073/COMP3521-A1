@@ -6,9 +6,9 @@ define('DBPASS', '');
 define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
 
 $conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
-if(isset($_POST['search']))
+if(isset($_GET['song_id']))
 {
-    $songs = findSongs($_POST['search']);
+    $songs = findSongs($_GET['song_id']);
 }
 if ($conn->connect_error) {
     die("Connection failed: ". $conn-> connect_error);
@@ -20,12 +20,12 @@ function findSongs($search) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         /*$sql = "song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE song_id=?";*/
         
-        $sql = "SELECT title, artists.artist_name, types.type_name, genres.genre_name, year, duration, bpm, energy, danceability, liveness,valence, acousticness, speechiness, popularity";
+        $sql = "SELECT *";
         $sql .= " FROM songs";
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
         $sql .= " INNER JOIN types ON artists.artist_type_id = types.type_id";
-        $sql .= " WHERE title LIKE ?";  
+        $sql .= " WHERE song_id LIKE ?";  
         
         $statement = $pdo->prepare($sql);
         $statement->bindValue(1, '%' . $search.'%');
@@ -95,14 +95,18 @@ $conn->close();
 
           <div class="field">
             <label>Find painting: </label>
-            
+            <input type="text" placeholder="enter search string" name="search" />
           </div>   
+          <button class="small ui orange button" type="submit">
+              <i class="filter icon"></i> Filter 
+          </button>
+          
              
         </form>
     </section>
     <section>
         <?php
-        if(isset($_POST['search'])){
+        if(isset($_GET['song_id'])){
             if(count($songs) > 0) {
                 outputSongs($songs);
             }
