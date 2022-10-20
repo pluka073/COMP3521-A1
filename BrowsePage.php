@@ -19,7 +19,7 @@ function findSongs($search) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         /*$sql = "song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE song_id=?";*/
         
-        $sql = "SELECT title, artists.artist_name, types.type_name, genres.genre_name, year, duration, bpm, energy, danceability, liveness,valence, acousticness, speechiness, popularity";
+        $sql = "SELECT *";
         $sql .= " FROM songs";
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
@@ -53,14 +53,23 @@ function outputSongs($songs){
     <th>Genre</th>
     <th>Year</th>
     <th>Popularity</th>
+    <th></th>
+    <th></th>
   </tr>";
     foreach ($songs as $row) {
         
-        echo " <tr> <th>". $row['title'] . "</th>";
-        echo "<td>".$row['artist_name'] . "</th> ";
-        echo " <td>".$row['genre_name'] . "<th/> ";
-     echo " <td>".$row['year']."<th/>";
-        echo " <td>". $row['popularity']."</th></tr> ";
+        echo " <tr> <td> <a href=TheSong.php?song_id=".$row['song_id'].">". $row['title'] . "</a></td>";
+        echo "<td>".$row['artist_name'] . "</td> ";
+        echo " <td>".$row['genre_name'] . "<td/> ";
+     echo " <td>".$row['year']."<td/>";
+        echo " <td>". $row['popularity']."</td> ";
+       echo "<td><a href=TheSong.php?song_id=".$row['song_id'].">
+            <button class='small ui blue button' type='button'>
+              <i class='filter icon'></i> View 
+                </button></a></td>";
+        echo "<td><button class='small ui blue button' type='submit'>
+              <i class='filter icon'></i> Favourite 
+          </button></td></tr>";
  } 
     echo "</table>";
 } 
@@ -95,18 +104,17 @@ $conn->close();
           <div class="field">
             <label>Find painting: </label>
             
-          <input type="text" placeholder="enter search string" name="search" />
+          
           </div>   
           
-             <button class="small ui blue button" type="submit">
+             <button class="small ui blue button" type="submit" name="search">
               <i class="filter icon"></i> Show All 
           </button>
-            <button class="small ui blue button" type="submit">
-              <i class="filter icon"></i> Favourite 
-          </button>
-            <button class="small ui blue button" type="submit">
+            
+            <!--<a href='TheSong.php?song_id='>
+            <button class="small ui blue button" type="button">
               <i class="filter icon"></i> View 
-          </button>
+                </button></a>-->
              
         </form>
     </section>

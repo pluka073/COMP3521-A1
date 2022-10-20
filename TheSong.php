@@ -95,11 +95,7 @@ $conn->close();
 
           <div class="field">
             <label>Find painting: </label>
-            <input type="text" placeholder="enter search string" name="search" />
-          </div>   
-          <button class="small ui orange button" type="submit">
-              <i class="filter icon"></i> Filter 
-          </button>
+            
           
              
         </form>
