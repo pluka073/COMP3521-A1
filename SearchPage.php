@@ -10,53 +10,12 @@
 </head>
 <body>
         <header>Header</header>
-    <input type="radio" id="title" name="Title">
-    <label for="title">Title</label>
-
-<?php 
-    if ( isset($_POST['search']) ) { 
- $search = findTitle($_POST['search']); 
-} 
- function findTitle($search) { 
- try { 
- $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS); 
- $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
- $sql = "SELECT title FROM songs"; 
- $sql .= " WHERE Title LIKE '%$title%'";  
- 
- $result = $pdo->query($sql); 
- $search = $result->fetchAll(PDO::FETCH_ASSOC); 
- $pdo = null; 
- return $title; 
- } 
-     catch (PDOException $e){
-         die( $e->getMessage());
-     }
- } 
- ?>
-    <section class="twelve wide column">
-<?php
-     function outputTitle($title) { 
- foreach ($tit as $row) { 
- echo $row['Title'] . " (" . $row['YearOfWork'] . ")<br/>"; 
- } 
-} 
- /* add your PHP code here */
- if ( isset($_POST['search']) ) { 
- if ( count($title) > 0 ) { 
- outputTitle($title); 
- } else { 
- echo "no titles found with search term = " . 
- $_POST['search']; 
- } 
- }
-?>
-<div><input type="text" placeholder="enter search title" name="search" />
-</div>   
-</section>
+    <form id="formID" action="BrowsePage.php" method="post">
+    <input type="radio" id="title" name="optbtn"> Title
+    <input type="text" name="title" id="title">
     
     <br>
-    <input type="radio" id="artist" name="Artist">
+    <input type="radio" id="artist" name="optbtn">
     <label for="artist">Artist</label>
     <select>
 <?php 
@@ -86,7 +45,7 @@ mysqli_close($connection);
 ?> 
 </select>
 
-    <input type="radio" id="genre" name="Genre">
+    <input type="radio" id="genre" name="optbtn">
     <label for="genre">Genres</label>
      <select>
 <?php 
@@ -116,14 +75,17 @@ mysqli_close($connection);
 ?> 
 </select>
 <br>
-    <input type="radio" id="year" name="Year">
+    <input type="radio" id="year" name="optbtn">
     <label for="year">Year</label>
-    <input type="radio" id="pop" name="popularity">
+    <input type="radio" id="pop" name="optbtn">
     <label for="pop">Popularity</label>
     <br>
+        <a href=BrowsePage.php>
      <button type="submit">
             Filter 
           </button>
+        </a>
+        </form>
        
     </body>
 </html>

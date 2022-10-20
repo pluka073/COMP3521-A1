@@ -1,35 +1,49 @@
-<?php require_once('config.inc.php'); ?>
+<?php require_once('config.inc.php'); 
+require_once('A1-db-classes.inc.php');
+require_once('A1-helpers.inc.php');
 
+try { 
+ $conn = DatabaseHelper::createConnection(array(DBCONNSTRING, 
+ DBUSER, DBPASS)); 
+if (isset($_GET['id']) && $_GET['id'] > 0){
+ $songGateway = new SongDB($conn); 
+ $songs = $songGateway->getAllForSong($_GET['id']);
+}
+else{
+    $songs = null;
+}
+} catch (Exception $e) { 
+ die( $e->getMessage() ) ;
+}
+?>
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Single Song</title>
+    </head>
 <body>
-<h1>Database Tester (mysqli)</h1>
-Genre: 
-<?php 
+
+    
+    <?php 
  
 $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME); 
 if ( mysqli_connect_errno() ) { 
  die( mysqli_connect_error() ); 
 } 
-$sql = "select Title, artists.artist_name, types.type_name, genres.genres_name, year, duration 
-        from songs INNER JOIN songs ON genres = songs.genre_id 
-                    INNER JOIN songs ON artists.artist_id = songs.artist_id 
-                    INNER JOIN artists ON types.type_id = artists.artist_type_id
-        where song_id = $song_id";
+$sql = "select song_id, title 
+        from songs";
     
-if ($result = mysqli_query($connection, $sql)) { 
- foreach ($result as $row) { 
- echo $row[0] . " - " . $row['LastName'] . "<br/>"; 
-}
  // release the memory used by the result set
- mysqli_free_result($result); 
-} 
+ 
+ 
  
 // close the database connection
 mysqli_close($connection); 
 ?> 
     
-    <p>title, name, artist, genre, year, duration</p>
+    <?php outputSingleSong($songs)?>
     <br>
     <h2>Analysis Data:</h2>
     <ul>
