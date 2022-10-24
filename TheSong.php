@@ -88,16 +88,16 @@ $conn->close();
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> Spotify Song</header>
+            <header class=""> <a href="TheSong.php">Spotify Song</a><a href='BrowsePage.php?song_id'>Browse</a></header>
     <section class="four wide column">
         <form class="ui form" method="post" >
           <h3 class="ui dividing header">Filters</h3>
 
           <div class="field">
-            <label>Find painting: </label>
+            <label>Find song: </label>
             
           
-             
+            </div> 
         </form>
     </section>
     <section>

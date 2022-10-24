@@ -6,9 +6,9 @@ define('DBPASS', '');
 define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
 
 $conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
-if(isset($_GET['search']))
+if(isset($_GET['song_id']))
 {
-    $songs = findSongs($_GET['search']);
+    $songs = findSongs($_GET['song_id']);
 }
 if ($conn->connect_error) {
     die("Connection failed: ". $conn-> connect_error);
@@ -24,14 +24,10 @@ function findSongs($search) {
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
         $sql .= " INNER JOIN types ON artists.artist_type_id = types.type_id";
-        $sql .= " WHERE title LIKE ? OR artists.artist_name = ? OR genres.genre_name LIKE ? OR year LIKE ?  OR popularity LIKE ?";  
+        $sql .= " WHERE title LIKE ?";  
         
         $statement = $pdo->prepare($sql);
-        $statement->bindValue(1,$search);
-        $statement->bindValue(2,$search);
-        $statement->bindValue(3,$search);
-        $statement->bindValue(4,$search);
-        $statement->bindValue(5,$search);
+        $statement->bindValue(1, '%' . $search.'%');
         $statement->execute();
         
         $songs = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -41,27 +37,6 @@ function findSongs($search) {
     catch (PDOException $e) {
         die( $e->getMessage());
     }
-}
-function addToFavorites(){
-    session_start(); 
- 
-// does session already exist?
-if ( !isset($_SESSION["Favorites"]) ) { 
- // initialize an empty array that will contain the favorites
- $_SESSION["Favorites"] = []; 
-} 
- 
-// retrieve favorites array for this user session
-$favorites = $_SESSION["Favorites"]; 
- 
-// now add passed painting id to our favorites array
-$favorites[] = $_GET["id"]; 
- 
-// then resave modified array to session state
-$_SESSION["Favorites"] = $favorites; 
- 
-// finally redirect to favorites page
-header("Location: FavoritesPage.php"); 
 }
 function outputSongs($songs){
    /*if ($result->num_rows > 0)
@@ -92,7 +67,7 @@ function outputSongs($songs){
             <button class='small ui blue button' type='button'>
               <i class='filter icon'></i> View 
                 </button></a></td>";
-        echo "<td> <button class='small ui blue button' type='button'>
+        echo "<td><button class='small ui blue button' type='submit'>
               <i class='filter icon'></i> Favourite 
           </button></td></tr>";
  } 
@@ -113,7 +88,7 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>The Song</title>
+<title>View Favourites</title>
     <meta charset=utf-8>
     <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -121,18 +96,18 @@ $conn->close();
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> Spotify Song, <a href=SearchPage.php>Search</a></header>
+            <header class=""> Spotify Song</header>
     <section class="four wide column">
         <form class="ui form" method="post" >
           <h3 class="ui dividing header">Filters</h3>
 
           <div class="field">
-            <label>Find songs: </label>
+            <label>Find painting: </label>
             
           
           </div>   
-            <a href='BrowsePage.php?search='>
-             <button class="small ui blue button" type="button" name="search">
+            <a href='BrowsePage.php?song_id'>
+             <button class="small ui blue button" type="button" name="song_id">
               <i class="filter icon"></i> Show All 
           </button>
             </a>
@@ -146,12 +121,12 @@ $conn->close();
     </section>
     <section>
         <?php
-        if(isset($_GET['search'])){
+        if(isset($_GET['song_id'])){
             if(count($songs) > 0) {
                 outputSongs($songs);
             }
             else {
-                echo "Error Not Found ". $_GET['search'];
+                echo "naurrrrrrr". $_GET['song_id'];
             }
         }
         else {
