@@ -5,56 +5,39 @@ define('DBUSER', 'root');
 define('DBPASS', '');
 define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
 
-$conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
-if(isset($_GET['search']))
-{
-    $songs = findSongs($_GET['search']);
-}
-if ($conn->connect_error) {
-    die("Connection failed: ". $conn-> connect_error);
-}
-function findSongs($search) {
-    try{
-        
-        $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        /*$sql = "song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE song_id=?";*/
-        
+try{
+
+$pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS); 
+ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT *";
-        $sql .= " FROM songs";
-        $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
-        $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
-        $sql .= " INNER JOIN types ON artists.artist_type_id = types.type_id";
-        $sql .= " WHERE search LIKE ?";  
+        $sql .= " FROM Genres";
+        $sql .= " ORDER BY genre_name";
         
-        $statement = $pdo->prepare($sql);
-        $statement->bindValue(1, '%' . $search.'%');
-        $statement->execute();
         
-        $songs = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $result = $pdo->query($sql);
+        $genres = $result->fetchAll(PDO::FETCH_ASSOC);
         $pdo = null;
-        return $songs;
     }
     catch (PDOException $e) {
         die( $e->getMessage());
     }
-}
-function getSong_id($songs){
-    foreach ($songs as $row) { 
-    return $row['search'] ;
+try{
+
+$pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS); 
+ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT *";
+        $sql .= " FROM artists";
+        $sql .= " ORDER BY artist_name";
+        
+        
+    $result = $pdo->query($sql);
+        $artists = $result->fetchAll(PDO::FETCH_ASSOC);
+        $pdo = null;
+    }
+    catch (PDOException $e) {
+        die( $e->getMessage());
     }
     
-       
-} 
-/*$sql = "SELECT song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE artists.artist_name='Logic'";*/
-
-
-
-/*else {
-    echo "0 results";
-}*/
-
-$conn->close();
 
 ?>
 
@@ -79,10 +62,37 @@ $conn->close();
           <div class="field">
               <input type="radio" id="rdbtn" name="rdbtn">
             <label for="title">Find by title: </label>
-            <input type="text" id="title" placeholder="enter search title" name="search" />
+            <input type="text" id="title" placeholder="enter search title" name="title" />
               <input type="radio" id="rdbtn" name="rdbtn">
               <label for="artist">Find by artist: </label>
               
+              <select name="artist">
+                  <option value=""></option>
+                <?php foreach ($artists as $row)
+                    {
+                        echo '<option value="' . $row['artist_name'] . '">'; 
+                     echo $row['artist_name']; 
+                     echo "</option>"; 
+                    }
+                  ?>
+        </select>
+                            <input type="radio" id="rdbtn" name="rdbtn">
+              <label for="genre">Find by genre: </label>
+
+              <select name="genre">
+                  <option value=""></option>
+                <?php foreach ($genres as $row)
+                    {
+                        echo '<option value="' . $row['genre_name'] . '">'; 
+                     echo $row['genre_name']; 
+                     echo "</option>"; 
+                    }
+                  ?>
+        </select>
+              <label for="year">Find by Year: </label>
+            <input type="text" id="year" placeholder="enter search year" name="year" />
+              <label for="pop">Find by Popularity: </label>
+            <input type="text" id="pop" placeholder="enter search popularity" name="pop" />
             
           </div> 
           <button class="small ui orange button" type="submit">
@@ -91,24 +101,7 @@ $conn->close();
                 
         </form>
         
-        <select>
-<?php 
-  
-if ($result = mysqli_query($connection, $sql)) { 
- while($row = mysqli_fetch_assoc($result)) 
- { 
- echo '<option value="' . $row['artists.artist_name'] . '">'; 
- echo $row['artists.artist_name']; 
- echo "</option>"; 
- } 
- // release the memory used by the result set
- mysqli_free_result($result); 
-} 
- 
-// close the database connection
-mysqli_close($connection); 
-?> 
-</select>
+          
     </section>
     
 

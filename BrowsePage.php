@@ -6,14 +6,32 @@ define('DBPASS', '');
 define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
 
 $conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
-if(isset($_GET['search']))
+if(isset($_GET['title'], $_GET['artist'], $_GET['genre'], $_GET['year'], $_GET['pop']))
 {
-    $songs = findSongs($_GET['search']);
+    $songs = findSongs($_GET['title'], $_GET['artist'], $_GET['genre'], $_GET['year'], $_GET['pop']);
 }
 if ($conn->connect_error) {
     die("Connection failed: ". $conn-> connect_error);
 }
-function findSongs($search) {
+try{
+
+$pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS); 
+ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT *";
+        $sql .= " FROM songs";
+        $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
+        $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
+        $sql .= " INNER JOIN types ON artists.artist_type_id = types.type_id";
+        
+        
+    $result = $pdo->query($sql);
+        $all_songs = $result->fetchAll(PDO::FETCH_ASSOC);
+        $pdo = null;
+    }
+    catch (PDOException $e) {
+        die( $e->getMessage());
+    }
+function findSongs($title, $artist, $genre, $year, $pop) {
     try{
         $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -24,14 +42,18 @@ function findSongs($search) {
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
         $sql .= " INNER JOIN types ON artists.artist_type_id = types.type_id";
-        $sql .= " WHERE title LIKE ? OR artists.artist_name = ? OR genres.genre_name LIKE ? OR year LIKE ?  OR popularity LIKE ?";  
+        $sql .= " WHERE title LIKE ? OR "; 
+        $sql .= "artists.artist_name = ? OR ";
+        $sql .= "genres.genre_name = ? OR ";
+        $sql .= "year LIKE ?  OR ";
+        $sql .= "popularity LIKE ?";  
         
         $statement = $pdo->prepare($sql);
-        $statement->bindValue(1,$search);
-        $statement->bindValue(2,$search);
-        $statement->bindValue(3,$search);
-        $statement->bindValue(4,$search);
-        $statement->bindValue(5,$search);
+        $statement->bindValue(1,$title);
+        $statement->bindValue(2,$artist);
+        $statement->bindValue(3,$genre);
+        $statement->bindValue(4,$year);
+        $statement->bindValue(5,$pop);
         $statement->execute();
         
         $songs = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -131,7 +153,7 @@ $conn->close();
             
           
           </div>   
-            <a href='BrowsePage.php?search='>
+            <a href="BrowsePage.php">
              <button class="small ui blue button" type="button" name="search">
               <i class="filter icon"></i> Show All 
           </button>
@@ -146,16 +168,16 @@ $conn->close();
     </section>
     <section>
         <?php
-        if(isset($_GET['search'])){
+        if(isset($_GET['title'], $_GET['artist'], $_GET['genre'], $_GET['year'], $_GET['pop'])){
             if(count($songs) > 0) {
                 outputSongs($songs);
             }
             else {
-                echo "Error Not Found ". $_GET['search'];
+                echo "Error Not Found ". $_GET['title'];
             }
         }
         else {
-            echo "Yar";
+            outputSongs($all_songs);;
         }
         ?>
         
