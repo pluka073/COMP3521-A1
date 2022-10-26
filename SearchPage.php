@@ -50,13 +50,13 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
     <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <main class="ui segment doubling stackable grid container">
+        <main >
             <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='BrowsePage.php?song_id'> Browse </a>|
-            <a href="HomePage.php">Home</a></header>
-    <section class="four wide column">
+            <a href="HomePage.php">Home</a><a href="FavoritesPage.php"> | Favorites</a></header>
+    <section >
         
-        <form class="ui form" method="GET" action="BrowsePage.php">
-          <table class="field">
+        <form  method="GET" action="BrowsePage.php">
+          <table >
               <tr><td>
               <input type="radio" id="rdbtn" name="rdbtn">
             <label for="title">Find by title: </label>
@@ -106,7 +106,7 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
             
             <tr><td>
           <button class="small ui orange button" type="submit">
-              <i class="filter icon"></i> Filter 
+              <i class="filter icon"></i> Search 
           </button>   
                 </td></tr>
             </table>
@@ -116,7 +116,7 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
     </section>
     
 
-    <section class="twelve wide column">
+    <section >
       <?php
         if(isset($_GET['search'])){
             if(count($songs) > 0) {

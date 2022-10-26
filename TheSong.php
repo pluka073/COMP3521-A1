@@ -117,12 +117,12 @@ $conn->close();
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     </head>
     <body>
-        <main class="ui segment doubling stackable grid container">
-            <header class=""> <a href="SearchPage.php">Search Song </a><a href='BrowsePage.php?song_id'>Browse</a>
-            <a href="HomePage.php">Home</a></header>
-    <section class="four wide column">
-        <form class="ui form" method="post" >
-          <h3 class="ui dividing header">Filters</h3>
+        <main>
+            <header class=""> <a href="SearchPage.php">Search Song | </a><a href='BrowsePage.php?song_id'>Browse |</a>
+            <a href="HomePage.php">Home </a><a href="FavoritesPage.php">| Favorites</a></header>
+    <section >
+        <form method="post" >
+          <h3 >The Songs</h3>
 
           <div class="field">
             <label>Find song: </label>

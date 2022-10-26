@@ -127,7 +127,7 @@ $conn->close();
     <body>
         <main>
             <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='SearchPage.php'> Search </a>|
-            <a href="HomePage.php">Home</a></header>
+            <a href="HomePage.php">Home</a> <a href="FavoritesPage.php"> | Favorites</a></header>
     <section>
         <form method="post" >
 

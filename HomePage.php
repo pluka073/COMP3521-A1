@@ -242,7 +242,7 @@ function outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $stu
     }
     echo"</ul></td>
 
-  </tr></table";
+  </tr></table>";
     
     
 }
@@ -267,10 +267,10 @@ function outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $stu
                 <h1>COMP 3512 Assign1</h1>
                 <h2>Lukas Priebe</h2>
         
-                <a href="SearchPage.php">Search |</a>
+                <a href="SearchPage.php">Search </a>|
                 <a href="TheSong.php">Spotify Song </a>|<a href='BrowsePage.php?song_id'> Browse </a>|
         
-            <a href="HomePage.php">Home</a></header>
+            <a href="HomePage.php">Home</a> <a href="FavoritesPage.php">| Favorites</a></header>
             
         <form method="post" >
             <div><?php outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $studying) ?></div><br/>    
