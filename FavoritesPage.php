@@ -55,7 +55,7 @@ function findSongs($search) {
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='SearchPage.php'> Search </a>|
+            <header class=""> <a href="BrowsePage.php">Back to Browse </a>|<a href="TheSong.php">Spotify Song </a>|<a href='SearchPage.php'> Search </a>|
             <a href="HomePage.php">Home</a></header>
 
    

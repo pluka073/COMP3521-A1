@@ -126,6 +126,7 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
                 ?>
     </section>  
         </main>
+        <footer>COMP 3512, &copy; Lukas Priebe, <a href="https://github.com/pluka073/COMP3521-A1.git">GitHub Repo Link</a></footer>
     </body>
 </html>
 

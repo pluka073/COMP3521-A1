@@ -254,21 +254,30 @@ function outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $stu
 <html lang="en">
 <head>
     
-<title>Home Page</title>
+<title>COMP 3512 Assign1</title>
+    
     <meta charset=utf-8>
     <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style.css">
     
     </head>
     <body>
-        <main class="ui segment doubling stackable grid container">
-            <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='BrowsePage.php?song_id'> Browse </a>|
-            <a href="HomePage.php">Home</a></header>
-    <section class="four wide column">
-        <form class="ui form" method="post" >
-            <div><?php outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $studying) ?></div><br/>
-            
 
-             
+            <header> 
+                <h1>COMP 3512 Assign1</h1>
+                <h2>Lukas Priebe</h2>
+        
+                <a href="SearchPage.php">Search |</a>
+                <a href="TheSong.php">Spotify Song </a>|<a href='BrowsePage.php?song_id'> Browse </a>|
+        
+            <a href="HomePage.php">Home</a></header>
+            
+        <form method="post" >
+            <div><?php outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $studying) ?></div><br/>    
         </form>
-    </section>
+        
+        <footer>COMP 3512, &copy; Lukas Priebe, <a href="https://github.com/pluka073/COMP3521-A1.git">GitHub Repo Link</a></footer>
+        
+    </body>
+    
+</html>

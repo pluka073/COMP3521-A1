@@ -20,7 +20,7 @@ function findSongs($search) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         /*$sql = "song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE song_id=?";*/
         
-        $sql = "SELECT *";
+        $sql = "SELECT *, CONCAT('Minutes: ', ROUND(duration/60), ':', (duration%60)) AS time";
         $sql .= " FROM songs";
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
@@ -68,7 +68,7 @@ function outputSongs($songs){
             <tr>";
         echo "<td>".$row['genre_name'] . "</td>"; 
         echo "<td>".$row['year']."</td>";
-        echo "<td>".$row['duration']."</td></tr>";
+        echo "<td>".$row['time']."</td></tr></table><table>";
         
         
         echo  "<tr>
@@ -77,8 +77,7 @@ function outputSongs($songs){
                     <th><i class='material-icons'>nightlife</i>danceability </th>
                     <th><i class='material-icons'>celebration</i>liveness </th>
                 </tr>
-                </table>
-                <table>
+
                 <tr>" ;
         echo "<td>". $row['bpm']." </td>";
         echo "<td>". $row['energy']." </td>";
@@ -96,10 +95,10 @@ function outputSongs($songs){
          
                 <tr>";
             
-        echo "<td>"    . $row['valence'].", </td>";
-        echo "<td>  ". $row['acousticness'].", </td>";
-        echo "<td>  ". $row['speechiness'].", </td>";
-        echo "<td>  ". $row['popularity'].", </td>";
+        echo "<td>"    . $row['valence']." </td>";
+        echo "<td>  ". $row['acousticness']." </td>";
+        echo "<td>  ". $row['speechiness']." </td>";
+        echo "<td>  ". $row['popularity']." </td>";
         echo"<table>";
  } 
 } 
@@ -119,7 +118,7 @@ $conn->close();
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> <a href="TheSong.php">Spotify Song </a><a href='BrowsePage.php?song_id'>Browse</a>
+            <header class=""> <a href="SearchPage.php">Search Song </a><a href='BrowsePage.php?song_id'>Browse</a>
             <a href="HomePage.php">Home</a></header>
     <section class="four wide column">
         <form class="ui form" method="post" >
@@ -149,6 +148,7 @@ $conn->close();
         
         </section>
         </main>
+        <footer>COMP 3512, &copy; Lukas Priebe, <a href="https://github.com/pluka073/COMP3521-A1.git">GitHub Repo Link</a></footer>
     </body>
 </html>
 

@@ -4,18 +4,20 @@ body {
      font-family: 'Poppins', sans-serif;
      line-height: 1.80857;
      font-weight: normal;
-    border: 3px solid
+    border: 3px solid;
+        color: aliceblue;
 }
 header
 {
     text-align-last: center;
-    font-size: 300%;
+    font-size: 200%;
 }
 table, tr, th, td {
          background-color: ##323b35;
         color: aliceblue;
         border: 3px solid;
     border-color: black;
+    text-align: center
         
     
 }
@@ -34,7 +36,12 @@ div{
     
 }
 
-
+#footer {
+   position:fixed;
+   left:0px;
+   bottom:0px;
+   height:30px;
+   width:100%;
 
 h1 {
      font-size: 24px;

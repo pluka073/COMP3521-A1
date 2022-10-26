@@ -71,10 +71,14 @@ function outputSongs($songs){
     <th>Title</th>
     <th>Artist</th>
     <th>Genre</th>
+     <th></th>
     <th>Year</th>
+    <th></th>
     <th>Popularity</th>
-    <th></th>
-    <th></th>
+
+
+    
+
   </tr>";
     foreach ($songs as $row) {
         
@@ -82,11 +86,12 @@ function outputSongs($songs){
         
         echo "<td>".$row['artist_name'] . "</td> ";
         
-        echo " <td>".$row['genre_name'] . "<td/> ";
+        echo "<td>".$row['genre_name'] . "<td/> ";
         
-        echo " <td>".$row['year']."<td/>";
+        echo "<td>".$row['year']."<td/>";
         
-        echo " <td>". $row['popularity']."</td> ";
+        
+        echo "<td>". $row['popularity']."</td> ";
         
         echo "<td><a href=TheSong.php?song_id=".$row['song_id'].">
             <button>
@@ -160,6 +165,7 @@ $conn->close();
         
         </section>
         </main>
+        <footer>COMP 3512, &copy; Lukas Priebe, <a href="https://github.com/pluka073/COMP3521-A1.git">GitHub Repo Link</a></footer>
     </body>
 </html>
 
