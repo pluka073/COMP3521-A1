@@ -6,28 +6,33 @@ define('DBPASS', '');
 define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
 
 $conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
-if(isset($_GET['song_id']))
-{
-    $songs = findSongs($_GET['song_id']);
-}
+
 if ($conn->connect_error) {
     die("Connection failed: ". $conn-> connect_error);
 }
+
+session_start();
+
+if ( !isset($_SESSION["Favorites"]) ) { 
+ $_SESSION["Favorites"] = []; 
+} 
+    $favorites = $_SESSION["Favorites"];
+
 function findSongs($search) {
     try{
+        
         $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        /*$sql = "song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE song_id=?";*/
         
         $sql = "SELECT *";
         $sql .= " FROM songs";
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
         $sql .= " INNER JOIN types ON artists.artist_type_id = types.type_id";
-        $sql .= " WHERE title LIKE ?";  
+        $sql .= " WHERE song_id LIKE ?";  
         
         $statement = $pdo->prepare($sql);
-        $statement->bindValue(1, '%' . $search.'%');
+        $statement->bindValue(1, $search);
         $statement->execute();
         
         $songs = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -38,14 +43,8 @@ function findSongs($search) {
         die( $e->getMessage());
     }
 }
-function outputSongs($songs){
-   /*if ($result->num_rows > 0)
-{
-    while($row = $result->fetch_assoc()){
-        
-        echo '<div>'."Title: ".$row["title"]. "Artist: ".$row["artist_name"]. "Genre: ".$row["genre_name"].'</div> </br>';
-        }
-} */
+/*function outputSongs(){
+
     echo "<table style='width:100%'>
   <tr>
     <th>Title</th>
@@ -56,86 +55,80 @@ function outputSongs($songs){
     <th></th>
     <th></th>
   </tr>";
-    foreach ($songs as $row) {
+    
+    foreach ($favorites as $fav) {
+        $row = findSongs($fav);
         
         echo " <tr> <td> <a href=TheSong.php?song_id=".$row['song_id'].">". $row['title'] . "</a></td>";
+        
         echo "<td>".$row['artist_name'] . "</td> ";
+        
         echo " <td>".$row['genre_name'] . "<td/> ";
-     echo " <td>".$row['year']."<td/>";
+        
+        echo " <td>".$row['year']."<td/>";
+        
         echo " <td>". $row['popularity']."</td> ";
-       echo "<td><a href=TheSong.php?song_id=".$row['song_id'].">
-            <button class='small ui blue button' type='button'>
-              <i class='filter icon'></i> View 
-                </button></a></td>";
-        echo "<td><button class='small ui blue button' type='submit'>
-              <i class='filter icon'></i> Favourite 
-          </button></td></tr>";
+        
  } 
     echo "</table>";
-} 
-/*$sql = "SELECT song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE artists.artist_name='Logic'";*/
-
-
-
-/*else {
-    echo "0 results";
-}*/
-
-$conn->close();
-
+} */
+              
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang=en>
 <head>
-<title>View Favourites</title>
+    <title>Favorites Page</title>
     <meta charset=utf-8>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
-    </head>
-    <body>
-        <main class="ui segment doubling stackable grid container">
-            <header class=""> Spotify Song</header>
-    <section class="four wide column">
-        <form class="ui form" method="post" >
-          <h3 class="ui dividing header">Filters</h3>
+    <link href="css/tailwind.css" rel="stylesheet">
+	 <link href="css/lab15-ex04.css" rel="stylesheet">
+	 <style>
 
-          <div class="field">
-            <label>Find painting: </label>
-            
-          
-          </div>   
-            <a href='BrowsePage.php?song_id'>
-             <button class="small ui blue button" type="button" name="song_id">
-              <i class="filter icon"></i> Show All 
-          </button>
-            </a>
-            
-            <!--<a href='TheSong.php?song_id='>
-            <button class="small ui blue button" type="button">
-              <i class="filter icon"></i> View 
-                </button></a>-->
-             
-        </form>
-    </section>
-    <section>
-        <?php
-        if(isset($_GET['song_id'])){
-            if(count($songs) > 0) {
-                outputSongs($songs);
-            }
-            else {
-                echo "naurrrrrrr". $_GET['song_id'];
-            }
-        }
-        else {
-            echo "Yar";
-        }
-        ?>
-        
-        </section>
-        </main>
-    </body>
+	 </style>
+</head>
+<body >  
+
+<main class="container px-5 py-24 mx-auto">
+
+   <div class="flex flex-col text-center w-full mb-20">
+      <a class="text-xs text-yellow-500 tracking-widest font-medium title-font mb-1" href="BrowsePage.php">Return to list</a>
+      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Favorites</h1>
+    </div>
+    <div class="container flex flex-col mx-auto w-full items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow">
+      <ul class="flex flex-col divide divide-y">
+
+<?php
+            foreach ($favorites as $fav) { 
+ // retrieve the painting for this id
+                if ( isset($fav)){
+            $songs = findSongs($fav); 
+                }
+    ?>
+
+
+            <li class="flex flex-row">
+                  <div class="select-none cursor-pointer flex flex-1 items-center p-4">
+                     <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
+                        <?php echo $songs['song_id']?>
+                       
+                     </div>
+                  </div>
+            </li>
+
+<?php
+                
+}
+?> 
+      </ul>
+   </div>
+
+   <a class="no-underline text-yellow-700 hover:text-yellow-500 text-xs font-bold uppercase inline-block mt-4 px-3 py-2 bg-gray-800 rounded " href="emptyFavorites.php" 
+       >
+				Empty Favorites
+   </a>
+
+
+</main>
+   
+</body>
 </html>
-

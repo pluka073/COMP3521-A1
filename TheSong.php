@@ -47,30 +47,62 @@ function outputSongs($songs){
         echo '<div>'."Title: ".$row["title"]. "Artist: ".$row["artist_name"]. "Genre: ".$row["genre_name"].'</div> </br>';
         }
 } */
-    foreach ($songs as $row) { 
- echo $row['title'] . "<br/>";
-        echo $row['artist_name'] . "<br/>";
-        echo $row['type_name'] . "<br/>";
-        echo $row['genre_name'] . "<br/>";
-     echo $row['year']."<br/>";
-        echo $row['duration']."<br/>"; 
-    echo "<div> BPM: ". $row['bpm'].", </div><br/>";
-    echo "<div> energy: ". $row['energy'].", </div><br/>";
-        echo "<div> danceability: ". $row['danceability'].", </div><br/>";
-        echo "<div> liveness: ". $row['liveness'].", </div><br/>";
-        echo "<div> valence: ". $row['valence'].", </div><br/>";
-        echo "<div> acousticness: ". $row['acousticness'].", </div><br/>";
-        echo "<div> speechiness: ". $row['speechiness'].", </div><br/>";
-        echo "<div> popularity: ". $row['popularity'].", </div><br/>";
+    foreach ($songs as $row) {
+        echo"<table> 
+        <tr>
+            <th><i class='material-icons'>album</i>Title:</th>
+            <th><i class='material-icons'>person</i>Artist: </th>
+            <th><i class='material-icons'>title</i>Artist Type: </th>
+        </tr>
+            <tr>";
+            echo "<td>".$row['title'] . "</td>";
+            echo "<td>".$row['artist_name'] . "</td>";
+            echo "<td>".$row['type_name'] . "</td>";
+        echo "</tr>
+        
+        <tr>
+            <th><i class='material-icons'>category</i>Genre: </th>
+            <th><i class='material-icons'>event</i>Year Released:</th>
+            <th><i class='material-icons'>timer</i>Duration:</th>
+            </tr>
+            <tr>";
+        echo "<td>".$row['genre_name'] . "</td>"; 
+        echo "<td>".$row['year']."</td>";
+        echo "<td>".$row['duration']."</td></tr>";
+        
+        
+        echo  "<tr>
+                    <th><i class='material-icons'>hourglass_top</i>BPM</th>
+                    <th><i class='material-icons'>electric_bolt</i>energy</th>
+                    <th><i class='material-icons'>nightlife</i>danceability </th>
+                    <th><i class='material-icons'>celebration</i>liveness </th>
+                </tr>
+                </table>
+                <table>
+                <tr>" ;
+        echo "<td>". $row['bpm']." </td>";
+        echo "<td>". $row['energy']." </td>";
+        echo "<td>". $row['danceability']." </td>";
+        echo "<td>". $row['liveness']." </td>
+        
+                </tr>";
+        
+        echo "<tr>
+                <th><i class='material-icons'>battery_full</i>valence</th>
+                <th><i class='material-icons'>lyrics</i>acousticness</th>
+                <th><i class='material-icons'>mic</i>speechiness</th>
+                <th><i class='material-icons'>star</i> popularity</th>
+            </tr>
+         
+                <tr>";
+            
+        echo "<td>"    . $row['valence'].", </td>";
+        echo "<td>  ". $row['acousticness'].", </td>";
+        echo "<td>  ". $row['speechiness'].", </td>";
+        echo "<td>  ". $row['popularity'].", </td>";
+        echo"<table>";
  } 
 } 
-/*$sql = "SELECT song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE artists.artist_name='Logic'";*/
-
-
-
-/*else {
-    echo "0 results";
-}*/
 
 $conn->close();
 
@@ -82,13 +114,13 @@ $conn->close();
 <title>The Song</title>
     
     <meta charset=utf-8>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+    <link rel='stylesheet' href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> <a href="TheSong.php">Spotify Song</a><a href='BrowsePage.php?song_id'>Browse</a></header>
+            <header class=""> <a href="TheSong.php">Spotify Song </a><a href='BrowsePage.php?song_id'>Browse</a>
+            <a href="HomePage.php">Home</a></header>
     <section class="four wide column">
         <form class="ui form" method="post" >
           <h3 class="ui dividing header">Filters</h3>

@@ -166,7 +166,12 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
 
 function outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $studying){
     echo "<table style='width:100%'> <tr> 
-    
+    <th>Top Genres</th>
+    <th>Top Artists</th>
+    <th>Most Popular Songs</th>
+    <th>One Hit Wonders</th>
+    </tr>
+    <tr>
     <td>";
     echo "<ul>";
     foreach ($top_genres as $row) {
@@ -206,7 +211,14 @@ function outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $stu
     echo "<ul>";
     
     echo"</td>
-  </tr>";
+  </tr>
+  <tr> 
+    <th>Longest Acoustic Songs</th>
+    <th>At The Club</th>
+    <th>Running Songs</th>
+    <th>Studying</th>
+    </tr>
+    <tr>";
     echo "<tr><td><ul>";
     foreach ($LAS as $row) {
        echo "<a href=TheSong.php?song_id=".$row['song_id'].">"; 
@@ -235,27 +247,25 @@ function outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $stu
     
 }
 
-
-
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
 <title>Home Page</title>
     <meta charset=utf-8>
     <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> Spotify Song, <a href=SearchPage.php>Search</a></header>
+            <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='BrowsePage.php?song_id'> Browse </a>|
+            <a href="HomePage.php">Home</a></header>
     <section class="four wide column">
         <form class="ui form" method="post" >
-          <h3 class="ui dividing header">Filters</h3>
-
             <div><?php outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $studying) ?></div><br/>
             
 

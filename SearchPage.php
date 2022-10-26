@@ -47,18 +47,15 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
 <title>Search Page</title>
     
     <meta charset=utf-8>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> <a href="TheSong.php">Spotify Song</a><a href='BrowsePage.php?song_id'>Browse</a></header>
+            <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='BrowsePage.php?song_id'> Browse </a>|
+            <a href="HomePage.php">Home</a></header>
     <section class="four wide column">
         
         <form class="ui form" method="GET" action="BrowsePage.php">
-          <h3 class="ui dividing header">Filters</h3>
-
           <div class="field">
               <input type="radio" id="rdbtn" name="rdbtn">
             <label for="title">Find by title: </label>

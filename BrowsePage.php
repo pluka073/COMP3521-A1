@@ -35,14 +35,13 @@ function findSongs($title, $artist, $genre, $year, $pop) {
     try{
         $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        /*$sql = "song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE song_id=?";*/
         
         $sql = "SELECT *";
         $sql .= " FROM songs";
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
         $sql .= " INNER JOIN types ON artists.artist_type_id = types.type_id";
-        $sql .= " WHERE title LIKE ? OR "; 
+        $sql .= " WHERE title = ? OR "; 
         $sql .= "artists.artist_name = ? OR ";
         $sql .= "genres.genre_name = ? OR ";
         $sql .= "year LIKE ?  OR ";
@@ -64,27 +63,7 @@ function findSongs($title, $artist, $genre, $year, $pop) {
         die( $e->getMessage());
     }
 }
-function addToFavorites(){
-    session_start(); 
- 
-// does session already exist?
-if ( !isset($_SESSION["Favorites"]) ) { 
- // initialize an empty array that will contain the favorites
- $_SESSION["Favorites"] = []; 
-} 
- 
-// retrieve favorites array for this user session
-$favorites = $_SESSION["Favorites"]; 
- 
-// now add passed painting id to our favorites array
-$favorites[] = $_GET["id"]; 
- 
-// then resave modified array to session state
-$_SESSION["Favorites"] = $favorites; 
- 
-// finally redirect to favorites page
-header("Location: FavoritesPage.php"); 
-}
+
 function outputSongs($songs){
    /*if ($result->num_rows > 0)
 {
@@ -106,17 +85,23 @@ function outputSongs($songs){
     foreach ($songs as $row) {
         
         echo " <tr> <td> <a href=TheSong.php?song_id=".$row['song_id'].">". $row['title'] . "</a></td>";
+        
         echo "<td>".$row['artist_name'] . "</td> ";
+        
         echo " <td>".$row['genre_name'] . "<td/> ";
-     echo " <td>".$row['year']."<td/>";
+        
+        echo " <td>".$row['year']."<td/>";
+        
         echo " <td>". $row['popularity']."</td> ";
-       echo "<td><a href=TheSong.php?song_id=".$row['song_id'].">
+        
+        echo "<td><a href=TheSong.php?song_id=".$row['song_id'].">
             <button class='small ui blue button' type='button'>
               <i class='filter icon'></i> View 
                 </button></a></td>";
-        echo "<td> <button class='small ui blue button' type='button'>
+        
+        echo "<td> <a href=addToFavorites.php?song_id=".$row['song_id']."> <button class='small ui blue button' type='button'>
               <i class='filter icon'></i> Favourite 
-          </button></td></tr>";
+          </button></a></td></tr>";
  } 
     echo "</table>";
 } 
@@ -137,25 +122,22 @@ $conn->close();
 <head>
 <title>The Song</title>
     <meta charset=utf-8>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+    <link rel=stylesheet href="style.css">
     </head>
     <body>
         <main class="ui segment doubling stackable grid container">
-            <header class=""> Spotify Song, <a href=SearchPage.php>Search</a></header>
-    <section class="four wide column">
-        <form class="ui form" method="post" >
-          <h3 class="ui dividing header">Filters</h3>
+            <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='SearchPage.php'> Search </a>|
+            <a href="HomePage.php">Home</a></header>
+    <section>
+        <form method="post" >
 
           <div class="field">
-            <label>Find songs: </label>
             
           
           </div>   
             <a href="BrowsePage.php">
-             <button class="small ui blue button" type="button" name="search">
-              <i class="filter icon"></i> Show All 
+             <button  type="button" name="search">
+               Show All 
           </button>
             </a>
             
