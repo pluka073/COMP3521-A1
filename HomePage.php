@@ -165,7 +165,7 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
     }
 
 function outputList($top_genres, $top_artists, $MPS, $OHW, $LAS, $ATC, $RS, $studying){
-    echo "<table style='width:100%'> <tr> 
+    echo "<table> <tr> 
     <th>Top Genres</th>
     <th>Top Artists</th>
     <th>Most Popular Songs</th>

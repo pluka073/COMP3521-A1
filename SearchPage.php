@@ -56,10 +56,13 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
     <section class="four wide column">
         
         <form class="ui form" method="GET" action="BrowsePage.php">
-          <div class="field">
+          <table class="field">
+              <tr><td>
               <input type="radio" id="rdbtn" name="rdbtn">
             <label for="title">Find by title: </label>
             <input type="text" id="title" placeholder="enter search title" name="title" />
+                  </td></tr>
+              <tr><td>
               <input type="radio" id="rdbtn" name="rdbtn">
               <label for="artist">Find by artist: </label>
               
@@ -73,6 +76,9 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
                     }
                   ?>
         </select>
+                  </td>
+              <td>
+              
                             <input type="radio" id="rdbtn" name="rdbtn">
               <label for="genre">Find by genre: </label>
 
@@ -86,16 +92,24 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
                     }
                   ?>
         </select>
+                  </td></tr>
+              
+              <tr><td>
               <label for="year">Find by Year: </label>
             <input type="text" id="year" placeholder="enter search year" name="year" />
+                  </td>
+              <td>
               <label for="pop">Find by Popularity: </label>
             <input type="text" id="pop" placeholder="enter search popularity" name="pop" />
+                  </td></tr>
             
-          </div> 
+            
+            <tr><td>
           <button class="small ui orange button" type="submit">
               <i class="filter icon"></i> Filter 
           </button>   
-                
+                </td></tr>
+            </table>
         </form>
         
           
@@ -108,14 +122,8 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
             if(count($songs) > 0) {
                 getSongs($songs);
             }
-            else {
-                echo "naurrrrrrr". $_POST['search'];
-            }
         }
-        else {
-            echo "Yar";
-        }
-        ?>
+                ?>
     </section>  
         </main>
     </body>

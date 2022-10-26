@@ -65,14 +65,8 @@ function findSongs($title, $artist, $genre, $year, $pop) {
 }
 
 function outputSongs($songs){
-   /*if ($result->num_rows > 0)
-{
-    while($row = $result->fetch_assoc()){
-        
-        echo '<div>'."Title: ".$row["title"]. "Artist: ".$row["artist_name"]. "Genre: ".$row["genre_name"].'</div> </br>';
-        }
-} */
-    echo "<table style='width:100%'>
+
+    echo "<table>
   <tr>
     <th>Title</th>
     <th>Artist</th>
@@ -95,12 +89,12 @@ function outputSongs($songs){
         echo " <td>". $row['popularity']."</td> ";
         
         echo "<td><a href=TheSong.php?song_id=".$row['song_id'].">
-            <button class='small ui blue button' type='button'>
-              <i class='filter icon'></i> View 
+            <button>
+              <i class='material-icons'>pageview</i> View 
                 </button></a></td>";
         
-        echo "<td> <a href=addToFavorites.php?song_id=".$row['song_id']."> <button class='small ui blue button' type='button'>
-              <i class='filter icon'></i> Favourite 
+        echo "<td> <a href=addToFavorites.php?song_id=".$row['song_id']."> <button > <i class='material-icons'>star</i>
+               Favourite 
           </button></a></td></tr>";
  } 
     echo "</table>";
@@ -123,9 +117,10 @@ $conn->close();
 <title>The Song</title>
     <meta charset=utf-8>
     <link rel=stylesheet href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     </head>
     <body>
-        <main class="ui segment doubling stackable grid container">
+        <main>
             <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='SearchPage.php'> Search </a>|
             <a href="HomePage.php">Home</a></header>
     <section>
