@@ -3,7 +3,8 @@ define('DBHOST', 'localhost');
 define('DBNAME', 'music');
 define('DBUSER', 'root');
 define('DBPASS', '');
-define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
+//define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
+define('DBCONNSTRING','sqlite:./databases/music.db');
 
 $conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
 if(isset($_GET['title'], $_GET['artist'], $_GET['genre'], $_GET['year'], $_GET['pop']))

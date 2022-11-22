@@ -3,7 +3,8 @@ define('DBHOST', 'localhost');
 define('DBNAME', 'music');
 define('DBUSER', 'root');
 define('DBPASS', '');
-define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
+//define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
+define('DBCONNSTRING','sqlite:./databases/music.db');
 
 $conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
 if(isset($_GET['song_id']))
@@ -20,7 +21,7 @@ function findSongs($search) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         /*$sql = "song_id, title, artists.artist_name, genres.genre_name, year FROM songs INNER JOIN artists ON songs.artist_id = artists.artist_id INNER JOIN genres ON songs.genre_id = genres.genre_id WHERE song_id=?";*/
         
-        $sql = "SELECT *, CONCAT('Minutes: ', ROUND(duration/60), ':', (duration%60)) AS time";
+        $sql = "SELECT *, ('Minutes: '|| cast(ROUND(duration/60) as int) || ':' || (duration%60)) AS time";
         $sql .= " FROM songs";
         $sql .= " INNER JOIN genres ON songs.genre_id = genres.genre_id";
         $sql .= " INNER JOIN artists ON songs.artist_id = artists.artist_id";
