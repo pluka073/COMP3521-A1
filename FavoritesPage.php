@@ -3,13 +3,9 @@ define('DBHOST', 'localhost');
 define('DBNAME', 'music');
 define('DBUSER', 'root');
 define('DBPASS', '');
-define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
+//define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
+define('DBCONNSTRING','sqlite:./databases/music.db');
 
-$conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
-
-if ($conn->connect_error) {
-    die("Connection failed: ". $conn-> connect_error);
-}
 
 session_start();
 
@@ -56,7 +52,7 @@ function findSongs($search) {
     <body>
         <main class="ui segment doubling stackable grid container">
             <header class=""> <a href="BrowsePage.php">Back to Browse </a>|<a href="TheSong.php">Spotify Song </a>|<a href='SearchPage.php'> Search </a>|
-            <a href="HomePage.php">Home</a></header>
+            <a href="index.php">Home</a></header>
 
    
       <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Favorites</h1>

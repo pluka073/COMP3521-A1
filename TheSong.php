@@ -6,14 +6,11 @@ define('DBPASS', '');
 //define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
 define('DBCONNSTRING','sqlite:./databases/music.db');
 
-$conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
 if(isset($_GET['song_id']))
 {
     $songs = findSongs($_GET['song_id']);
 }
-if ($conn->connect_error) {
-    die("Connection failed: ". $conn-> connect_error);
-}
+
 function findSongs($search) {
     try{
         
@@ -104,7 +101,6 @@ function outputSongs($songs){
  } 
 } 
 
-$conn->close();
 
 ?>
 
@@ -120,7 +116,7 @@ $conn->close();
     <body>
         <main>
             <header class=""> <a href="SearchPage.php">Search Song | </a><a href='BrowsePage.php?song_id'>Browse |</a>
-            <a href="HomePage.php">Home </a><a href="FavoritesPage.php">| Favorites</a></header>
+            <a href="index.php">Home </a><a href="FavoritesPage.php">| Favorites</a></header>
     <section >
         <form method="post" >
           <h3 >The Songs</h3>

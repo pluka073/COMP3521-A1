@@ -53,7 +53,7 @@ $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
     <body>
         <main >
             <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='BrowsePage.php?song_id'> Browse </a>|
-            <a href="HomePage.php">Home</a><a href="FavoritesPage.php"> | Favorites</a></header>
+            <a href="index.php">Home</a><a href="FavoritesPage.php"> | Favorites</a></header>
     <section >
         
         <form  method="GET" action="BrowsePage.php">

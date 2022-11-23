@@ -6,16 +6,12 @@ define('DBPASS', '');
 //define('DBCONNSTRING',"mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8mb4;");
 define('DBCONNSTRING','sqlite:./databases/music.db');
 
-$conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
 if(isset($_GET['title'], $_GET['artist'], $_GET['genre'], $_GET['year'], $_GET['pop']))
 {
     $songs = findSongs($_GET['title'], $_GET['artist'], $_GET['genre'], $_GET['year'], $_GET['pop']);
 }
-if ($conn->connect_error) {
-    die("Connection failed: ". $conn-> connect_error);
-}
-try{
 
+try{
 $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS); 
  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT *";
@@ -113,7 +109,6 @@ function outputSongs($songs){
     echo "0 results";
 }*/
 
-$conn->close();
 
 ?>
 
@@ -128,7 +123,7 @@ $conn->close();
     <body>
         <main>
             <header class=""> <a href="TheSong.php">Spotify Song </a>|<a href='SearchPage.php'> Search </a>|
-            <a href="HomePage.php">Home</a> <a href="FavoritesPage.php"> | Favorites</a></header>
+            <a href="index.php">Home</a> <a href="FavoritesPage.php"> | Favorites</a></header>
     <section>
         <form method="post" >
 
